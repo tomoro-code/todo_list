@@ -5,14 +5,21 @@ const port = 3000;
 const express = require('express');
 const app = express();
 const ejs = require('ejs');
-const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const mainController = require('./controllers/mainController');
 const errorController = require('./controllers/errorController');
 
 //ビューエンジンの設定
 app.set('view engine', 'ejs');
+
+//セッションの設定
+app.use(
+    session({
+        secret: 'mysecret',
+        resave: false,
+        saveUninitialized: false
+    })
+);
 
 //これがないとreq.bodyが読み込めませんよ
 app.use(express.urlencoded({
