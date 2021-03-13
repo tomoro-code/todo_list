@@ -18,7 +18,7 @@
                 <td></td>
                 <td></td>
             </tr>
-            <% thingsToDo.forEach((thing) => { %>
+            <% locals.thingsToDo.forEach((thing) => { %>
                 <tr class="task-rows">
                     <td><%= thing.priority %></td>
                     <td><%= thing.title %></td>
@@ -37,7 +37,7 @@
     </ul>
 
     <div>
-        <form action="/insert/<%= user_id %>" method="POST">
+        <form action="/insert/<%= locals.userId %>" method="POST">
             <label for="thing">やること</label>
             <input type="text" name="title" placeholder="やること" required/>
             <label for="due">締め切り期日</label>
