@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <form action="/edit/<%= user_id %>/<%= id %>" method="post">
+        <label for="title">やること</label>
+        <input type="text" name="title" value="<%= title %>">
+        <label for="due">締め切り期日</label>
+        <input type="datetime-local" name="due" placeholder="<%= due %>"> 
+        <label for="priority">優先順位</label>
+            <select size="1" name="priority">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        <input type="submit" value="送信">
+    </form>
+</body>
+</html>

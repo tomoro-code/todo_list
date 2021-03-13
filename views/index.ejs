@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <ul>
+        <table>
+            <tr>
+                <td>優先順位</td>
+                <td>タスク</td>
+                <td>締め切り</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <% thingsToDo.forEach((thing) => { %>
+                <tr class="task-rows">
+                    <td><%= thing.priority %></td>
+                    <td><%= thing.title %></td>
+                    <td><%= thing.due.replace('T', ' ') %></td>
+                    <td>
+                        <a href="/edit/<%= thing.user_id %>/<%= thing.id %>">編集</a>
+                    </td>
+                    <td>
+                        <form action="/delete/<%= thing.user_id %>/<%= thing.id %>" method="post">
+                            <input type="submit" value="完了">
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </table>
+    </ul>
+
+    <div>
+        <form action="/insert/<%= user_id %>" method="POST">
+            <label for="thing">やること</label>
+            <input type="text" name="title" placeholder="やること" required/>
+            <label for="due">締め切り期日</label>
+            <input type="datetime-local" name="due" placeholder="締め切り期日" required/> 
+            <label for="priority">優先順位</label>
+            <select size="1" name="priority">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+            <input type="submit" value="送信">
+        </form>
+    </div>
+</body>
+</html>
