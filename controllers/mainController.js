@@ -23,12 +23,16 @@ module.exports = {
             'SELECT * FROM users WHERE name = ?',
             [req.body.username],
             (error, results) => {
-                if(error){
-                    res.send(error);
-                }else if(results[0].password === req.body.password){
-                    res.render('top', {user: results[0]});
+                if(results.length > 0){
+                    if(results[0].password === req.body.password){
+                        req.session.userId = results[0].user_id;
+                        res.locals.userId = req.session.userId;
+                        res.redirect(`/index/${res.locals.userId}`);
+                    }else{
+                        res.send('パスワードが間違っています');
+                    }
                 }else{
-                    res.send('お名前かパスワードが間違っています。');
+                    res.send(`${req.body.name}さんは登録されていません。`);
                 }
             }
         )
@@ -41,10 +45,9 @@ module.exports = {
                 if(error){
                     res.send(error);
                 }
-                res.render('index', {
-                    thingsToDo: results,
-                    user_id: req.params.user_id
-                });
+                res.locals.userId = req.session.userId;
+                res.locals.thingsToDo = results;
+                res.render('index');
             }
         );
     },
