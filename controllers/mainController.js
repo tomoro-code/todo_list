@@ -26,8 +26,9 @@ module.exports = {
                 if(results.length > 0){
                     if(results[0].password === req.body.password){
                         req.session.userId = results[0].user_id;
-                        res.locals.userId = req.session.userId;
-                        res.redirect(`/index/${res.locals.userId}`);
+                        req.session.username = results[0].name;
+                        req.session.isLoggedIn = true;
+                        res.redirect(`/index/${req.session.userId}`);
                     }else{
                         res.send('パスワードが間違っています');
                     }
@@ -45,6 +46,8 @@ module.exports = {
                 if(error){
                     res.send(error);
                 }
+                res.locals.username = req.session.username;
+                res.locals.isLoggedIn = req.session.isLoggedIn;
                 res.locals.userId = req.session.userId;
                 res.locals.thingsToDo = results;
                 res.render('index');
@@ -106,5 +109,11 @@ module.exports = {
                 res.redirect(`/index/${req.params.user_id}`);
             }
         );
+    },
+    logout: (req, res) => {
+        req.session.destroy(() => {
+            console.log('user logged out.');
+        });
+        res.redirect('/login');
     }
 }

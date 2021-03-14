@@ -45,6 +45,8 @@ app.post('/insert/:user_id',mainController.addNewTask);
 
 app.post('/delete/:user_id/:id',mainController.completeTask);
 
+app.get('/logout', mainController.logout);
+
 //エラー処理ミドルウェア関数
 app.use(errorController.notFound);
 app.use(errorController.internalServerError);
