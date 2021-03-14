@@ -33,6 +33,8 @@ app.use(express.static('public'));
 
 //ルーティング
 
+app.get('/', mainController.getTopPage);
+
 app.get('/login', mainController.getLoginPage);
 app.post('/login', mainController.login);
 
