@@ -1,0 +1,8 @@
+<header>
+    <% if(locals.isLoggedIn){ %>
+        <li><%= locals.username %>さんのやることリスト</li>
+        <li><a href="/logout">ログアウト</a></li>
+    <% }else{ %>
+        <li><a href="/login">ログイン</a></li>
+    <% } %>
+</header>
