@@ -66,7 +66,6 @@ module.exports = {
                     id: results[0].id,
                     title: results[0].title,
                     due: results[0].due,
-                    priority: results[0].priority,
                     user_id: results[0].user_id
                 });
             }
