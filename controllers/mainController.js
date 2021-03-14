@@ -15,6 +15,9 @@ connection.connect((error) => {
 });
 
 module.exports = {
+    getTopPage: (req, res,) => {
+        res.render('top');
+    },
     getLoginPage: (req, res) => {
         res.render('login');
     },
@@ -113,6 +116,6 @@ module.exports = {
         req.session.destroy(() => {
             console.log('user logged out.');
         });
-        res.redirect('/login');
+        res.redirect('/');
     }
 }
