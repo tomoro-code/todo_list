@@ -1,3 +1,6 @@
+//bcrypt
+const bcrypt = require('bcrypt');
+
 //mysqlとの接続
 const mysql = require('mysql');
 const connection = mysql.createConnection({
@@ -41,6 +44,42 @@ module.exports = {
             }
         )
     },
+    getSignupPage: (req, res) => {
+        res.render('signup');
+    },
+    checkDeplicate: (req, res, next) => {
+        connection.query(
+            'SELECT * FROM users WHERE name = ?',
+            [req.body.name],
+            (error, results) => {
+                if(results.length > 0){
+                    console.log('A request for signup was rejected.');
+                    //名前が被ったことをブラウザに表示する処理をあとで追加(2021/03/16)
+                    res.redirect('/signup');
+                }else{
+                    next();
+                }
+            }
+        );
+    },
+    signup: (req, res) => {
+        const password = req.body.password;
+        bcrypt.hash(password, 7, (error, hash) => {
+            connection.query(
+                'INSERT INTO users (name, password) VALUES (?, ?)',
+                [req.body.name, hash],
+                (error, results) => {
+                    console.log(results);
+                    req.session.userId = results.insertId;
+                    req.session.isLoggedIn = true;
+                    req.session.username = req.body.name;
+                    res.locals.thingsToDo = [];
+                    console.log('new user have been created.');
+                    res.redirect(`/index/${req.session.userId}`);
+                }
+            )
+        })
+    },
     getIndexPage: (req, res) => {
         connection.query(
             'SELECT * FROM list WHERE user_id = ? ORDER BY priority asc, due asc',
@@ -49,9 +88,6 @@ module.exports = {
                 if(error){
                     res.send(error);
                 }
-                res.locals.username = req.session.username;
-                res.locals.isLoggedIn = req.session.isLoggedIn;
-                res.locals.userId = req.session.userId;
                 res.locals.thingsToDo = results;
                 res.render('index');
             }

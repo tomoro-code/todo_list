@@ -35,8 +35,18 @@ app.use(express.static('public'));
 
 app.get('/', mainController.getTopPage);
 
+app.get('/signup', mainController.getSignupPage);
+app.post('/signup', mainController.checkDeplicate, mainController.signup);
+
 app.get('/login', mainController.getLoginPage);
 app.post('/login', mainController.login);
+
+app.use((req, res, next) => {
+    res.locals.isLoggedIn = req.session.isLoggedIn;
+    res.locals.userId = req.session.userId;
+    res.locals.username = req.session.username;
+    next();
+})
 
 app.get('/index/:user_id', mainController.getIndexPage);
 
