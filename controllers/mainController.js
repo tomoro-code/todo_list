@@ -29,18 +29,19 @@ module.exports = {
             'SELECT * FROM users WHERE name = ?',
             [req.body.username],
             (error, results) => {
-                if(results.length > 0){
-                    if(results[0].password === req.body.password){
+                const plain = req.body.password;
+                const hash = results[0].password;
+                bcrypt.compare(plain, hash, (error, isEqual) => {
+                    if(isEqual){
                         req.session.userId = results[0].user_id;
                         req.session.username = results[0].name;
                         req.session.isLoggedIn = true;
                         res.redirect(`/index/${req.session.userId}`);
                     }else{
-                        res.send('パスワードが間違っています');
+                        console.log('login failed.');
+                        res.redirect('/login');
                     }
-                }else{
-                    res.send(`${req.body.name}さんは登録されていません。`);
-                }
+                });
             }
         )
     },
