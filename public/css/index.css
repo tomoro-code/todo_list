@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+body{
+    margin: 10px;
+}
+/* テーブル */
+table{
+    border-collapse: collapse;
+}
+td{
+    border: 1px solid black;
+}
+
+.overdue{
+    color: red;
+}
+
+/*　フォーム */
+input{
+    display: block;
+}
+#submitInput{
+    background-color: teal;
+    border-radius: 10px;
+}

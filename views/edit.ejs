@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <%- include('header') %>
     <form action="/edit/<%= user_id %>/<%= id %>" method="post">
         <label for="title">やること</label>
         <input type="text" name="title" value="<%= title %>">
