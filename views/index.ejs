@@ -9,32 +9,30 @@
 </head>
 <body>
     <%- include('header') %>
-    <ul>
-        <table>
-            <tr>
-                <td>優先順位</td>
-                <td>タスク</td>
-                <td>締め切り</td>
-                <td></td>
-                <td></td>
+    <table>
+        <tr>
+            <td>優先順位</td>
+            <td>タスク</td>
+            <td>締め切り</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <% locals.thingsToDo.forEach((thing) => { %>
+            <tr class="task-rows">
+                <td><%= thing.priority %></td>
+                <td><%= thing.title %></td>
+                <td><%= thing.due.replace('T', ' ') %></td>
+                <td>
+                    <a href="/edit/<%= thing.user_id %>/<%= thing.id %>">編集</a>
+                </td>
+                <td>
+                    <form action="/delete/<%= thing.user_id %>/<%= thing.id %>" method="post">
+                        <input type="submit" value="完了">
+                    </form>
+                </td>
             </tr>
-            <% locals.thingsToDo.forEach((thing) => { %>
-                <tr class="task-rows">
-                    <td><%= thing.priority %></td>
-                    <td><%= thing.title %></td>
-                    <td><%= thing.due.replace('T', ' ') %></td>
-                    <td>
-                        <a href="/edit/<%= thing.user_id %>/<%= thing.id %>">編集</a>
-                    </td>
-                    <td>
-                        <form action="/delete/<%= thing.user_id %>/<%= thing.id %>" method="post">
-                            <input type="submit" value="完了">
-                        </form>
-                    </td>
-                </tr>
-            <% }); %>
-        </table>
-    </ul>
+        <% }); %>
+    </table>
 
     <div>
         <form action="/insert/<%= locals.userId %>" method="POST">
